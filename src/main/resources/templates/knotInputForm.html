@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Netzplan Rechner</title>
+    <style>
+
+body{
+background: url(https://cdn-media-1.freecodecamp.org/imgr/MJAkxbh.png);
+font-size: 16px;
+background-color:lavender;
+font-family: "Lucida Console", "Courier New", monospace;}
+
+.col-sm-2{
+margin-top:80px;
+
+}
+.form{
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+background-color:white;}
+
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/start">Herzlich Wilkommen</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/start">Home</a></li>
+            <li><a href="/input">Netzplan Eingeben</a></li>
+            <li><a href="/table">Result ansehen</a></li>
+            <li><a href="https://de.wikipedia.org/wiki/Netzplantechnik">Was ist ein Netzplan ?</a></li>
+        </ul>
+    </div>
+</nav>
+<form class="form" method="post" action="saveKnotInputForm" th:object="${knotInputFormToSave}">
+
+
+    <div class="col-sm-2" style="margin-top:80px; margin-left:100px;height:400px;background-color:white;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
+
+        <div class="_label">
+            <label>Vorgangsnummer</label><br>
+            <label>Vorgangsbezeichnung</label><br>
+            <label>Dauer</label><br>
+            <label>Vorgänger 1</label><br>
+            <label>Vorgänger 2</label><br>
+            <label>Vorgänger 3</label><br>
+        </div>
+
+    </div>
+    <div class="col-sm-2" style="height:400px;background-color:white;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);" >
+
+        <input type="number" min="0" th:field="*{operationNumber}"><br>
+        <input type="text" th:field="*{operationDescription}"><br>
+        <input type="number" th:field="*{durationInMinutes}"><br>
+
+        <select th:field="*{predecessorOneListIndex}">
+            <option th:value="${null}"></option>
+            <option th:each="k : ${knotInputFormList}"
+                    th:text="${(knotInputFormList.indexOf(k) + 1) + ' (' + k.operationDescription + ')'}"
+                    th:value="${knotInputFormList.indexOf(k)}"></option>
+        </select><br>
+
+        <select th:field="*{predecessorTwoListIndex}">
+            <option th:value="${null}"></option>
+            <option th:each="k : ${knotInputFormList}"
+                    th:text="${(knotInputFormList.indexOf(k) + 1) + ' (' + k.operationDescription + ')'}"
+                    th:value="${knotInputFormList.indexOf(k)}"></option>
+        </select><br>
+
+        <select th:field="*{predecessorThreeListIndex}">
+            <option th:value="${null}"></option>
+            <option th:each="k : ${knotInputFormList}"
+                    th:text="${(knotInputFormList.indexOf(k) + 1) + ' (' + k.operationDescription + ')'}"
+                    th:value="${knotInputFormList.indexOf(k)}"></option>
+        </select>
+        </br></br>
+        <button class="btn btn-default btn-block" type="submit">Speichern</button>
+        </br></br>
+        <button class="btn btn-default btn-block" type="reset"><i class="fas fa-trash"></i> Reset</button>
+        </br></br>
+        <button class="btn btn-default btn-block "><a href="/table"><i class="fas fa-thumbs-up"></i> Netzplan Erstellen</a>
+        </button>
+    </div>
+
+</form>
+<div>
+    <div class="col-sm-6" style="margin-top:80px; margin-left:100px;">
+        <table class="table table-hover">
+            <thead>
+            <th>Nummer</th>
+            <th>Bezeichnung</th>
+            <th>Dauer</th>
+            <th>Vorgänger</th>
+            </thead>
+            <tbody>
+            <tr th:each="knot : ${knotInputFormList}">
+                <th class="table-nr" th:text="${knotInputFormList.indexOf(knot) + 1}"></th>
+                <td class="table-description" th:text="${knot.getOperationDescription}"></td>
+                <td class="table-duration" th:text="${knot.getDurationInMinutes}"></td>
+                <td class="table-predecessor">
+                                <span class="tablePredecessor"
+                                      th:if="${knot.getPredecessorOneListIndex != null}"
+                                      th:text="${knot.getPredecessorOneListIndex + 1}"></span>
+                    <span class="tablePredecessor"
+                          th:if="${knot.getPredecessorTwoListIndex != null}"
+                          th:text="', ' + ${knot.getPredecessorTwoListIndex + 1}"></span>
+                    <span class="tablePredecessor"
+                          th:if="${knot.getPredecessorThreeListIndex != null}"
+                          th:text="', ' + ${knot.getPredecessorThreeListIndex + 1}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

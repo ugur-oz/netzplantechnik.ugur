@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabelle</title>
+</head>
+<style>
+    body {
+    background: url(https://cdn-media-1.freecodecamp.org/imgr/MJAkxbh.png);
+    }
+</style>
+<body>
+<p1>Gesamtdauer</p1>
+<hr>
+
+<table border="1" bgcolor="#caf0f8">
+    <thead>
+    <th>Nr.</th>
+    <th>Bezeichnung</th>
+    <th>Dauer</th>
+    <th>Vorgänger</th>
+    <th>Nachfolger</th>
+    <th>Freier Puffer</th>
+    <th>Gesamter Puffer</th>
+    <th>Früheste Anfangszeit</th>
+    <th>Früheste Endezeit</th>
+    <th>Späteste Anfangszeit</th>
+    <th>Späteste Endezeit</th>
+
+
+    </thead>
+    <tbody>
+    <tr th:each="knot : ${knotList}">
+        <td th:text="${knot.getOperationNumber}"></td>
+        <td th:text="${knot.getOperationDescription}"></td>
+        <td th:text="${knot.getDurationInMinutes}"></td>
+        <td th:text="${knot.getPredecessorList}"></td>
+        <td th:text="${knot.getSuccessorList}"></td>
+        <td th:text="${knot.getFreeBuffer}"></td>
+        <td th:text="${knot.getTotalBuffer}"></td>
+        <td th:text="${knot.getFaz}"></td>
+        <td th:text="${knot.getFez}"></td>
+        <td th:text="${knot.getSaz}"></td>
+        <td th:text="${knot.getSez}"></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
