@@ -1,5 +1,9 @@
 package netzplantechnik.ugur;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +17,9 @@ public class NetzPlanController {
     public static List<Knot> knotList = new ArrayList<>();
     public static List<KnotInputForm> knotInputFormList = new ArrayList<>();
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @GetMapping("/start")
     public String getStartPage(Model model) {
         return "home";
@@ -20,6 +27,17 @@ public class NetzPlanController {
 
     @GetMapping("input")
     public String getKnotInputForm(Model model) {
+
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM test");
+        List<String> testData = new ArrayList<>();
+
+        while (sqlRowSet.next()) {
+          //  String testString = sqlRowSet.getInt("NUMBER") + " " + sqlRowSet.getInt("DURATION") + " " + sqlRowSet.getString("ACTIVITY") + " " + sqlRowSet.getInt("PREDECESSOR1") + " " + sqlRowSet.getInt("PREDECESSOR2") + " " + sqlRowSet.getInt("PREDECESSOR3");
+            String testString = sqlRowSet.getInt("ID") + " " + sqlRowSet.getString("NAME");
+            testData.add(testString);
+        }
+        System.out.println(testData);
+
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("knotInputFormList", knotInputFormList);
 
