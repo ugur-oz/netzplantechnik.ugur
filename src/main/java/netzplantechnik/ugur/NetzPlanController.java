@@ -31,13 +31,12 @@ public class NetzPlanController {
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM test");
         List<String> testData = new ArrayList<>();
 
-        while (sqlRowSet.next()) {
-          //  String testString = sqlRowSet.getInt("NUMBER") + " " + sqlRowSet.getInt("DURATION") + " " + sqlRowSet.getString("ACTIVITY") + " " + sqlRowSet.getInt("PREDECESSOR1") + " " + sqlRowSet.getInt("PREDECESSOR2") + " " + sqlRowSet.getInt("PREDECESSOR3");
-            String testString = sqlRowSet.getInt("ID") + " " + sqlRowSet.getString("NAME");
+        /* while (sqlRowSet.next()) {
+            String testString = sqlRowSet.getInt("VORGANSNUMMER") + " " + sqlRowSet.getString("VORGANGSBEZEICHNUNG ") + " " + sqlRowSet.getInt("DAUER") + " " + sqlRowSet.getInt("VORGAENGER1") + " " + sqlRowSet.getInt("VORGAENGER2") + " " + sqlRowSet.getInt("VORGAENGER3");
             testData.add(testString);
         }
         System.out.println(testData);
-
+*/
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("knotInputFormList", knotInputFormList);
 
@@ -48,6 +47,10 @@ public class NetzPlanController {
     public String saveKnotInputForm(Model model, KnotInputForm knotInputForm) {
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("knotInputFormList", knotInputFormList);
+
+        String sql = "insert into TEST(ID, NAME) values (?, ?)";
+        jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription() );
+
         knotInputFormList.add(knotInputForm);
 
         return "knotInputForm";
