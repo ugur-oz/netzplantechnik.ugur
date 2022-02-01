@@ -18,12 +18,15 @@ background-color:lavender;
 font-family: "Lucida Console", "Courier New", monospace;}
 
 .col-sm-2{
+
+border-radius: 25px;
 margin-top:80px;
 
 }
 .form{
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 background-color:white;}
+
 
     </style>
 </head>
@@ -46,9 +49,10 @@ background-color:white;}
 <form class="form" method="post" action="saveKnotInputForm" th:object="${knotInputFormToSave}">
 
 
-    <div class="col-sm-2" style="margin-top:80px; margin-left:100px;height:400px;background-color:white;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
+    <div class="col-sm-2"
+         style="margin-top:80px; margin-left:100px;height:400px;background-color:white;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
 
-        <div class="_label">
+        <div class="_label" style="margin-top: 15px ;">
             <label>Vorgangsnummer</label><br>
             <label>Vorgangsbezeichnung</label><br>
             <label>Dauer</label><br>
@@ -58,9 +62,10 @@ background-color:white;}
         </div>
 
     </div>
-    <div class="col-sm-2" style="height:400px;background-color:white;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);" >
+    <div class="col-sm-2"
+         style="height:400px;background-color:white;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
 
-        <input type="number" min="0" th:field="*{operationNumber}"><br>
+        <input type="number" style="margin-top: 15px ; min="0" th:field="*{operationNumber}"><br>
         <input type="text" th:field="*{operationDescription}"><br>
         <input type="number" th:field="*{durationInMinutes}"><br>
 

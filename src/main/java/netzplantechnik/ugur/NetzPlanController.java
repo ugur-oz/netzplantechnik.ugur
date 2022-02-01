@@ -28,15 +28,16 @@ public class NetzPlanController {
     @GetMapping("input")
     public String getKnotInputForm(Model model) {
 
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM test");
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM netzplan");
         List<String> testData = new ArrayList<>();
 
-        /* while (sqlRowSet.next()) {
-            String testString = sqlRowSet.getInt("VORGANSNUMMER") + " " + sqlRowSet.getString("VORGANGSBEZEICHNUNG ") + " " + sqlRowSet.getInt("DAUER") + " " + sqlRowSet.getInt("VORGAENGER1") + " " + sqlRowSet.getInt("VORGAENGER2") + " " + sqlRowSet.getInt("VORGAENGER3");
+        while (sqlRowSet.next()) {
+            String testString = sqlRowSet.getInt("VORGANGSNUMMER") + " " + sqlRowSet.getString("VORGANGSBEZEICHNUNG ") +
+             " " + sqlRowSet.getInt("DAUER") + " " + sqlRowSet.getInt("VORGAENGER1") + " " + sqlRowSet.getInt("VORGAENGER2") + " " + sqlRowSet.getInt("VORGAENGER3");
             testData.add(testString);
         }
         System.out.println(testData);
-*/
+
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("knotInputFormList", knotInputFormList);
 
@@ -48,10 +49,14 @@ public class NetzPlanController {
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("knotInputFormList", knotInputFormList);
 
-        String sql = "insert into TEST(ID, NAME) values (?, ?)";
-        jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription() );
+        /* String sql = "insert into TEST(ID, NAME) values (?, ?)";
+        jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription() ); */
 
-        knotInputFormList.add(knotInputForm);
+        String sql = "insert into NETZPLAN(VORGANGSNUMMER, VORGANGSBEZEICHNUNG, DAUER, VORGAENGER1, VORGAENGER2, VORGAENGER3) values (?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription(), knotInputForm.getDurationInMinutes(),
+                knotInputForm.getPredecessorOneListIndex(), knotInputForm.getPredecessorTwoListIndex(), knotInputForm.getPredecessorThreeListIndex() );
+
+                knotInputFormList.add(knotInputForm);
 
         return "knotInputForm";
     }
