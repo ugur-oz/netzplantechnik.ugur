@@ -20,14 +20,14 @@ public class NetzPlanController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/start")
+    @GetMapping("/")
     public String getStartPage(Model model) {
         return "home";
     }
 
     @GetMapping("input")
     public String getKnotInputForm(Model model) {
-
+    /*
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM netzplan");
         List<String> testData = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class NetzPlanController {
             testData.add(testString);
         }
         System.out.println(testData);
-
+*/
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("knotInputFormList", knotInputFormList);
 
@@ -50,12 +50,12 @@ public class NetzPlanController {
         model.addAttribute("knotInputFormList", knotInputFormList);
 
         /* String sql = "insert into TEST(ID, NAME) values (?, ?)";
-        jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription() ); */
+        jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription() );
 
         String sql = "insert into NETZPLAN(VORGANGSNUMMER, VORGANGSBEZEICHNUNG, DAUER, VORGAENGER1, VORGAENGER2, VORGAENGER3) values (?,?,?,?,?,?)";
         jdbcTemplate.update(sql, knotInputForm.getOperationNumber(), knotInputForm.getOperationDescription(), knotInputForm.getDurationInMinutes(),
                 knotInputForm.getPredecessorOneListIndex(), knotInputForm.getPredecessorTwoListIndex(), knotInputForm.getPredecessorThreeListIndex() );
-
+*/
                 knotInputFormList.add(knotInputForm);
 
         return "knotInputForm";
